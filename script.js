@@ -32,33 +32,23 @@ function calculateIMC(weight, height) {
     imcResult.classList.add("resultP");
     imcResultText.classList.add("resultP");
 
-    let imc = userWeight / (userHeight * userHeight);
+    let imcCalculo = userWeight / (userHeight * userHeight);
 
-    imcResult.innerText = `Seu IMC é: ${imc.toFixed(2)}`;
+    let imcTabela = [
+      { valor: 18.5, status: "Magreza", classe: "resultP magreza"},
+      { valor: 24.9, status: "Normal", classe: "resultP normal"},
+      { valor: 29.9, status: "Sobrepeso", classe: "resultP sobrepeso"},
+      { valor: 34.9, status: "Obesidade grau I", classe: "resultP obesidadeI" },
+      { valor: 39.9, status: "Obesidade grau II", classe: "resultP obesidadeII" },
+      { valor: 40, status: "Obesidade grau III", classe: "resultP obesidadeIII" },
+    ];
 
-    switch (true) {
-      case imc < 18.5:
-        imcResultText.innerText = "Magreza";
-        imcResultText.className = "resultP magreza";
-        break;
-      case imc < 24.9:
-        imcResultText.innerText = "Normal";
-        imcResultText.className = "resultP normal";
+    let categoria = imcTabela.find((item) => imcCalculo <= item.valor);
+    if (!categoria) categoria = imcTabela[imcTabela.length - 1];
 
-        break;
-      case imc < 29.9:
-        imcResultText.innerText = "Sobrepeso";
-        imcResultText.className = "resultP sobrepeso";
-        break;
-      case imc < 39.9:
-        imcResultText.innerText = "Obesidade";
-        imcResultText.className = "resultP obesidade";
-        break;
-      default:
-        imcResultText.innerText = "Obesidade Grave";
-        imcResultText.className = "resultP obesidadeG";
-        break;
-    }
+    imcResult.innerText = `Seu IMC é: ${imcCalculo.toFixed(2)}`;
+    imcResultText.innerText = `${categoria.status}`;
+    imcResultText.className = `${categoria.classe}`
   }
 }
 
